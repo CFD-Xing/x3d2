@@ -30,7 +30,6 @@ runs:
              -o response.json \
              -F "token=${TOKEN}" \
              -F "ref=${REF_NAME}" \
-             ${variable_args} \
              ${URL}/api/v4/projects/${PROJECT_ID}/trigger/pipeline
       shell: bash
       env:
