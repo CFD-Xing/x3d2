@@ -36,7 +36,8 @@ runs:
              -o response.json \
              -F "token=${TOKEN}" \
              -F "ref=${REF_NAME}" \
-             ${URL}/api/v4/projects/${PROJECT_ID}/trigger/pipeline 
+             ${URL}/api/v4/projects/${PROJECT_ID}/trigger/pipeline \
+             || ( RETCODE="$?"; jq . response.json; exit "$RETCODE" )
         # Print and parse json
         jq . response.json
         echo "web_url=$(cat response.json | jq -c '.web_url')" >> $GITHUB_OUTPUT
