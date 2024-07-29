@@ -20,7 +20,12 @@ inputs:
     description: 'GitLab project ref_name (branch or tag name; defaults to main)'
     required: false
     default: 'main'
-
+    
+outputs:
+  json:
+    description: "GitLab webhook response (JSON)"
+    value: ${{ steps.call-webhook.outputs.json }}
+    
 runs:
   using: "composite"
   steps:
@@ -31,11 +36,7 @@ runs:
              -o response.json \
              -F "token=${TOKEN}" \
              -F "ref=${REF_NAME}" \
-             ${URL}/api/v4/projects/${PROJECT_ID}/trigger/pipeline \
-               || ( RETCODE="$?"; jq . response.json; exit "$RETCODE" )
-        # Print and parse json
-        jq . response.json
-        echo "json=$(cat response.json)" >> $GITHUB_OUTPUT
+             ${URL}/api/v4/projects/${PROJECT_ID}/trigger/pipeline 
       shell: bash
       env:
         URL: ${{ inputs.url }}
