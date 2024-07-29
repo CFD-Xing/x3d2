@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Trigger pipeline on CFD-Xing/gitlab-ci
-      uses: xcompact3d/x3d2@main
+      uses: CFD-Xing/x3d2@main
       with:
         url: https://gitlab.nektar.info
         project_id: 364
