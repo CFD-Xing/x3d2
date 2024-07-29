@@ -37,6 +37,9 @@ runs:
              -F "token=${TOKEN}" \
              -F "ref=${REF_NAME}" \
              ${URL}/api/v4/projects/${PROJECT_ID}/trigger/pipeline 
+        # Print and parse json
+        jq . response.json
+        echo "web_url=$(cat response.json | jq -c '.web_url')" >> $GITHUB_OUTPUT
       shell: bash
       env:
         URL: ${{ inputs.url }}
