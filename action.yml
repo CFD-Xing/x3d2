@@ -48,4 +48,3 @@ runs:
         PROJECT_ID: ${{ inputs.project_id }}
         TOKEN: ${{ inputs.token }}
         REF_NAME: ${{ inputs.ref_name }}
-        VARIABLES: ${{ inputs.variables }}
