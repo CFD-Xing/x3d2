@@ -15,4 +15,4 @@ jobs:
         token: ${{ secrets.GITLABCI }}
     - name: Print GitLab pipeline URL
       run: |
-        echo web_url=${{ steps.trigger.outputs.web_url }}
+        echo web_url=${{ steps.outputs.web_url }}
