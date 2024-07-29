@@ -24,12 +24,13 @@ inputs:
 outputs:
   web_url:
     description: "GitLab pipeline URL"
-    value: ${{ steps.outputs.web_url }}
+    value: ${{ steps.call-webhook.outputs.web_url }}
     
 runs:
   using: "composite"
   steps:
-    - run: |
+    - id: call-webhook
+      run: |
         # Call webhook
         curl -X POST \
              --fail \
