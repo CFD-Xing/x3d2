@@ -1,0 +1,55 @@
+name: 'Trigger GitLab CI through webhooks'
+description: 'Triggers the GitLab CI pipeline through webhook pipeline trigger and associated token'
+branding:
+  icon: 'play'
+  color: 'blue'
+inputs:
+  url:
+    description: 'GitLab server url (at the level under which the API start)'
+    required: true
+    default: 'https://gitlab.com'
+  project_id:
+    description: 'GitLab project ID'
+    required: true
+    default: ''
+  token:
+    description: 'GitLab pipeline trigger token'
+    required: true
+    default: ''
+  ref_name:
+    description: 'GitLab project ref_name (branch or tag name; defaults to main)'
+    required: false
+    default: 'main'
+  variables:
+    description: 'Additional variables in VAR=value format to pass to the pipeline'
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        # Parse VARIABLES into multiple arguments
+        for variable in ${VARIABLES} ; do
+          if [[ $variable =~ ^([a-zA-Z_][a-zA-Z0-9_]*)=(.*) ]] ; then
+            variable_args="${variable_args:-} -F variables[${BASH_REMATCH[1]}]=${BASH_REMATCH[2]}"
+          else
+            echo "Unable to parse variable $variable"
+          fi
+        done
+        # Call webhook
+        curl -X POST \
+             --fail \
+             -o response.json \
+             -F "token=${TOKEN}" \
+             -F "ref=${REF_NAME}" \
+             ${variable_args} \
+             ${URL}/api/v4/projects/${PROJECT_ID}/trigger/pipeline
+        echo "::set-output name=web_url::$(cat response.json | jq -c '.web_url')"
+      shell: bash
+      env:
+        URL: ${{ inputs.url }}
+        PROJECT_ID: ${{ inputs.project_id }}
+        TOKEN: ${{ inputs.token }}
+        REF_NAME: ${{ inputs.ref_name }}
+        VARIABLES: ${{ inputs.variables }}
