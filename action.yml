@@ -20,10 +20,6 @@ inputs:
     description: 'GitLab project ref_name (branch or tag name; defaults to main)'
     required: false
     default: 'main'
-  variables:
-    description: 'Additional variables in VAR=value format to pass to the pipeline'
-    required: false
-    default: ''
 
 runs:
   using: "composite"
