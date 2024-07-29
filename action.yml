@@ -24,7 +24,7 @@ inputs:
 outputs:
   web_url:
     description: "GitLab pipeline URL"
-    value: ${{ steps.call-webhook.outputs.web_url }}
+    value: ${{ steps.outputs.web_url }}
     
 runs:
   using: "composite"
