@@ -12,6 +12,3 @@ jobs:
         url: https://gitlab.nektar.info
         project_id: 364
         token: ${{ secrets.GITLABCI }}
-        variables: |
-          VAR1=value1
-          VAR2=value2
